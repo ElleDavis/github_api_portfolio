@@ -1,25 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react"
+import GithubList from './component/githubList';
+import { useState, useEffect} from "react"
+import { Route } from "react-router-dom";
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+  const [myaccount, setMyAccount]=useState(null)
+
+ useEffect(()=>{
+    // fetch("https://api.github.com/users/")
+    // https://api.github.com/users/ElleDavis
+    fetch("https://api.github.com/users/ElleDavis/repos")
+    .then((res)=> res.json())
+    .then(data => setMyAccount(data))
+ },[])
+ 
+  return(
+    <div>
+        <h1>My Github</h1>
+        <Route path='/'>
+             <GithubList repos={myaccount} />
+            
+        </Route>
     </div>
-  );
+)
 }
 
 export default App;
